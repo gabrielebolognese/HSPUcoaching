@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F0F2EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1216" media="(prefers-color-scheme: dark)">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>HSPU Coaching Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: phone-first app. One 560px column, a sticky top bar, Back/Next above a fixed bottom tab bar (Plan, Today, Ideas). */
+:root {
+  --bg: #F0F2EE;
+  --surface: #FFFFFF;
+  --surface-2: #E5E8E3;
+  --ink: #12171D;
+  --ink-2: #4E5862;
+  --ink-3: #7B848D;
+  --line: #D8DDD6;
+  --accent: #2347D1;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E1E7FB;
+  --done: #1D7849;
+  --done-soft: #DBEFE2;
+  --warn: #9C560F;
+  --warn-soft: #F5E7D4;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1216; --surface: #171C22; --surface-2: #20272E; --ink: #E7EAED; --ink-2: #A6B0BA; --ink-3: #78838D; --line: #2A333B;
+    --accent: #8299FF; --accent-ink: #0E1216; --accent-soft: #1C2652; --done: #63C892; --done-soft: #14301F; --warn: #E6AA62; --warn-soft: #382811; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1216; --surface: #171C22; --surface-2: #20272E; --ink: #E7EAED; --ink-2: #A6B0BA; --ink-3: #78838D; --line: #2A333B;
+  --accent: #8299FF; --accent-ink: #0E1216; --accent-soft: #1C2652; --done: #63C892; --done-soft: #14301F; --warn: #E6AA62; --warn-soft: #382811; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; -webkit-tap-highlight-color: transparent; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; }
+p { margin: 0; }
+
+.wrap { max-width: 560px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* top bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
+.top .wrap { padding-block: 12px 12px; display: grid; gap: 8px; }
+.top-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.brand { font-family: var(--font-display); font-weight: 800; font-stretch: 112%; font-size: 17px; letter-spacing: -0.01em; }
+.top-sub { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.bar { height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 3px; transition: width .25s ease; }
+.ghost { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 13.5px; font-weight: 600; cursor: pointer; color: var(--ink-2); white-space: nowrap; }
+.ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+/* views */
+main { padding-bottom: calc(160px + env(safe-area-inset-bottom, 0px)); }
+.view { padding-top: 20px; display: grid; gap: 18px; }
+.view[hidden] { display: none; }
+
+/* step */
+.meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.stage { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.time { font-size: 12.5px; font-weight: 600; color: var(--ink-2); background: var(--surface-2); padding: 3px 9px; border-radius: 999px; }
+.step-title { font-size: clamp(27px, 7.4vw, 34px); font-weight: 800; font-stretch: 108%; line-height: 1.08; letter-spacing: -0.015em; }
+.why { color: var(--ink-2); font-size: 15.5px; }
+.firsttip { background: var(--accent-soft); color: var(--ink); border-radius: 10px; padding: 12px 14px; font-size: 14.5px; }
+
+.todo { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.item { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; cursor: pointer; min-height: 52px; position: relative; }
+.item input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.tick { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink-3); display: grid; place-items: center; margin-top: -1px; background: var(--surface); }
+.tick svg { width: 14px; height: 14px; opacity: 0; }
+.item input:checked + .tick { background: var(--done); border-color: var(--done); }
+.item input:checked + .tick svg { opacity: 1; }
+.item input:focus-visible + .tick { outline: 2px solid var(--accent); outline-offset: 2px; }
+.item .tx { font-size: 15.5px; line-height: 1.4; min-width: 0; }
+.item .tx b { font-weight: 600; }
+.item .tx small { display: block; color: var(--ink-2); font-size: 13.5px; margin-top: 3px; line-height: 1.4; }
+.item input:checked ~ .tx { color: var(--ink-3); }
+.item input:checked ~ .tx b { text-decoration: line-through; }
+
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 10px; }
+.box-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.box-head span { font-size: 12.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+.copy-text { white-space: pre-wrap; font-size: 15px; line-height: 1.5; margin: 0; font-family: var(--font-body); overflow-wrap: anywhere; }
+.copy { background: var(--accent-soft); color: var(--accent); border: 0; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700; cursor: pointer; flex: none; }
+.note { font-size: 14px; color: var(--ink-2); border-left: 3px solid var(--warn); padding: 2px 0 2px 12px; }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 14px; font-weight: 600; }
+.field textarea, .field input { width: 100%; font: 15px/1.45 var(--font-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.field textarea { min-height: 64px; resize: vertical; }
+.field textarea:focus, .field input:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+.cta { justify-self: start; background: var(--ink); color: var(--bg); border: 0; border-radius: 999px; padding: 10px 18px; font-weight: 700; font-size: 14.5px; cursor: pointer; }
+
+/* bottom nav: back / next */
+.stepnav { position: fixed; left: 0; right: 0; bottom: calc(62px + env(safe-area-inset-bottom, 0px)); z-index: 15; background: linear-gradient(to bottom, transparent, var(--bg) 30%); }
+.stepnav .wrap { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 10px; padding-block: 18px 10px; }
+.stepnav[hidden] { display: none; }
+.back { height: 52px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; display: grid; place-items: center; }
+.back:disabled { opacity: .35; cursor: default; }
+.back svg { width: 22px; height: 22px; }
+.next { height: 52px; border-radius: 14px; border: 0; background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 16.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.next svg { width: 20px; height: 20px; }
+
+/* tab bar */
+.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 16; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.tabs .wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tab { height: 62px; border: 0; background: none; cursor: pointer; display: grid; place-items: center; align-content: center; gap: 3px; color: var(--ink-3); font-size: 12px; font-weight: 600; position: relative; }
+.tab svg { width: 24px; height: 24px; }
+.tab[aria-selected="true"] { color: var(--accent); }
+.badge { position: absolute; top: 8px; left: calc(50% + 8px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; display: grid; place-items: center; font-variant-numeric: tabular-nums; }
+.badge.ok { background: var(--done); }
+
+/* all steps sheet */
+.sheet { position: fixed; inset: 0; z-index: 40; background: var(--bg); overflow-y: auto; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.sheet .wrap { padding-block: 16px 40px; display: grid; gap: 14px; }
+.sheet h2 { font-size: 24px; font-weight: 800; font-stretch: 108%; }
+.sheet-group { display: grid; gap: 4px; }
+.sheet-group h3 { font-family: var(--font-body); font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 8px 0 2px; }
+.jump { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; cursor: pointer; }
+.jump .n { font-weight: 700; font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.jump .st { font-size: 12px; font-weight: 700; color: var(--ink-3); }
+.jump.done .st { color: var(--done); }
+.jump.cur { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* today */
+.h-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.h-row h2 { font-size: 26px; font-weight: 800; font-stretch: 108%; }
+.date { color: var(--ink-2); font-size: 14px; }
+.streak { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 700; color: var(--warn); background: var(--warn-soft); padding: 4px 10px; border-radius: 999px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; background: var(--surface-2); border-radius: 10px; padding: 3px; gap: 3px; }
+.seg button { border: 0; background: none; border-radius: 8px; padding: 8px 6px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.vidcard { background: var(--ink); color: var(--bg); border-radius: 16px; padding: 16px; display: grid; gap: 10px; }
+.vidcard .lbl { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .7; }
+.vidcard .type { font-family: var(--font-display); font-size: 24px; font-weight: 800; font-stretch: 110%; line-height: 1.1; }
+.vidcard .desc { font-size: 14px; opacity: .8; }
+.vidcard .idea { background: color-mix(in srgb, var(--bg) 12%, transparent); border-radius: 10px; padding: 12px; font-size: 15.5px; line-height: 1.4; }
+.vidcard .idea small { display: block; opacity: .75; font-size: 13px; margin-top: 4px; }
+.vidcard .row { display: flex; gap: 8px; flex-wrap: wrap; }
+.vidcard .row button { border: 1px solid color-mix(in srgb, var(--bg) 35%, transparent); background: none; color: var(--bg); border-radius: 999px; padding: 7px 14px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.week div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 6px 2px; text-align: center; display: grid; gap: 1px; }
+.week b { font-size: 11px; color: var(--ink-3); font-weight: 600; }
+.week span { font-size: 11.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.week .now { background: var(--accent); border-color: var(--accent); }
+.week .now b, .week .now span { color: var(--accent-ink); }
+.sec-t { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; }
+.counter { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 10px 10px 14px; }
+.counter .tx { font-size: 15.5px; font-weight: 600; }
+.counter .tx small { display: block; font-weight: 400; color: var(--ink-2); font-size: 13.5px; }
+.ctrl { display: flex; align-items: center; gap: 6px; }
+.ctrl button { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); font-size: 20px; font-weight: 600; cursor: pointer; }
+.ctrl output { min-width: 46px; text-align: center; font-weight: 800; font-size: 17px; font-variant-numeric: tabular-nums; }
+.counter.ok { border-color: var(--done); background: var(--done-soft); }
+details.help { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+details.help summary { cursor: pointer; font-weight: 600; font-size: 14.5px; color: var(--ink-2); }
+details.help ol { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 4px; font-size: 14.5px; }
+.toggle { display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--ink-2); cursor: pointer; }
+.toggle input { width: 20px; height: 20px; accent-color: var(--accent); }
+
+/* ideas */
+.filters { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.filters::-webkit-scrollbar { display: none; }
+.filters button { flex: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 14px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.kind { display: table; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-bottom: 4px; }
+.kind.Tip { background: var(--accent-soft); color: var(--accent); }
+.kind.Story { background: var(--warn-soft); color: var(--warn); }
+.kind.Proof { background: var(--done-soft); color: var(--done); }
+.kind.Reply { background: var(--surface-2); color: var(--ink-2); }
+.done-msg { text-align: center; color: var(--ink-2); font-size: 14.5px; padding: 8px 0; }
+.reset { justify-self: center; background: none; border: 0; color: var(--ink-3); font-size: 13px; text-decoration: underline; cursor: pointer; padding: 8px; }
+.reset.armed { color: #fff; background: #B23A1A; border-radius: 999px; text-decoration: none; padding: 8px 14px; }
+/* account */
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 2px; }
+.stat b { font-family: var(--font-display); font-size: 26px; font-weight: 800; font-stretch: 110%; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 13px; color: var(--ink-2); }
+.rows { display: grid; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.rows > div, .rows > button { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 11px 14px; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; font-size: 14.5px; width: 100%; }
+.rows > button { cursor: pointer; }
+.rows > button:hover { background: var(--bg); }
+.rows > :first-child { border-top: 0; }
+.rows small { display: block; color: var(--ink-3); font-size: 12.5px; }
+.rows .r { font-weight: 700; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rows .r.ok { color: var(--done); }
+.qa { display: grid; gap: 3px; }
+.qa b { font-size: 13.5px; font-weight: 600; color: var(--ink-2); }
+.qa p { font-size: 15px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.qa p.empty { color: var(--ink-3); font-style: italic; }
+.backup { background: var(--surface); border: 2px solid var(--accent); border-radius: 14px; padding: 16px; display: grid; gap: 12px; }
+.backup.stale { border-color: var(--warn); }
+.btnrow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn-primary, .btn-secondary { height: 50px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-primary { border: 0; background: var(--accent); color: var(--accent-ink); }
+.btn-secondary { border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.btn-primary svg, .btn-secondary svg { width: 18px; height: 18px; }
+.vh { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; }
+.vh:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status { font-size: 14px; color: var(--ink-2); }
+.status.ok { color: var(--done); font-weight: 600; }
+.status.err { color: var(--warn); font-weight: 600; }
+.backup.stale #backup-last { color: var(--warn); font-weight: 600; }
+.confirm { background: var(--warn-soft); border-radius: 12px; padding: 12px 14px; display: grid; gap: 10px; font-size: 14.5px; }
+.json-out textarea { min-height: 150px; font: 12px/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; }
+.json-out .copy { justify-self: start; }
+.textlink { justify-self: start; background: none; border: 0; padding: 2px 0; color: var(--ink-2); font-size: 13.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.tab .dot { position: absolute; top: 10px; left: calc(50% + 9px); width: 9px; height: 9px; border-radius: 50%; background: var(--warn); }
+@media (prefers-reduced-motion: reduce) { .bar > i { transition: none; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <span class="brand">HSPU Coaching Plan</span>
+      <button type="button" class="ghost" id="open-all">All steps</button>
+    </div>
+    <div class="top-row"><span class="top-sub" id="top-sub">Step 1 of 21 · Set up</span><span class="top-sub" id="top-done">0 done</span></div>
+    <div class="bar"><i id="top-bar"></i></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- PLAN -->
+  <section class="view" id="view-plan" aria-live="polite"></section>
+
+  <!-- TODAY -->
+  <section class="view" id="view-today" hidden>
+    <div class="h-row"><h2>Today</h2><span class="streak" id="streak">0 day streak</span></div>
+    <p class="date" id="today-date"></p>
+
+    <div class="seg" role="group" aria-label="Which stage are you in">
+      <button type="button" data-mode="start" aria-pressed="true">Month 1: free value</button>
+      <button type="button" data-mode="grow" aria-pressed="false">Month 2+: more stories</button>
+    </div>
+
+    <div class="vidcard">
+      <span class="lbl">Today's video</span>
+      <span class="type" id="vid-type">Tip</span>
+      <span class="desc" id="vid-desc">Teach one thing they can try today.</span>
+      <div class="idea" id="vid-idea"></div>
+      <div class="row"><button type="button" id="vid-other">Another idea</button><button type="button" id="vid-used">Mark idea as used</button></div>
+    </div>
+
+    <div class="week" id="week-row" aria-label="This week's video plan"></div>
+
+    <p class="sec-t">Every day</p>
+    <ul class="todo" id="daily-list"></ul>
+    <div class="counter" id="stories-row">
+      <div class="tx">Instagram stories<small>Goal: at least 7</small></div>
+      <div class="ctrl"><button type="button" data-count="-1" aria-label="One less">−</button><output id="stories-n">0/7</output><button type="button" data-count="1" aria-label="One more">+</button></div>
+    </div>
+    <details class="help">
+      <summary>What to post in 7 stories</summary>
+      <ol>
+        <li>A clip from today's training</li>
+        <li>Share today's video</li>
+        <li>A poll: "Can you do a wall HSPU? Yes / Not yet"</li>
+        <li>A question box: "Ask me anything about handstand push-ups"</li>
+        <li>One quick tip written as text</li>
+        <li>Something from your day (food, school, work, setup)</li>
+        <li>"DM me HSPU if you want help" (once you take clients)</li>
+      </ol>
+    </details>
+    <label class="toggle"><input type="checkbox" id="has-clients"> I have clients (shows client tasks)</label>
+    <ul class="todo" id="client-list" hidden></ul>
+
+    <p class="sec-t">This week</p>
+    <ul class="todo" id="weekly-list"></ul>
+    <p class="done-msg">The daily list resets every day, the weekly list every Monday. Saved on this phone.</p>
+  </section>
+
+  <!-- IDEAS -->
+  <section class="view" id="view-ideas" hidden>
+    <div class="h-row"><h2>Video ideas</h2><span class="date" id="ideas-count"></span></div>
+    <p class="why">Tap an idea once you've posted it. The big line is your hook: say it and put it on screen in the first 2 seconds.</p>
+    <div class="filters" role="group" aria-label="Filter ideas">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="Tip" aria-pressed="false">Tips</button>
+      <button type="button" data-filter="Story" aria-pressed="false">My story</button>
+      <button type="button" data-filter="Proof" aria-pressed="false">Proof</button>
+      <button type="button" data-filter="Reply" aria-pressed="false">Replies</button>
+    </div>
+    <ul class="todo" id="ideas-list"></ul>
+  </section>
+
+  <!-- ACCOUNT -->
+  <section class="view" id="view-account" hidden>
+    <div class="h-row"><h2>Account</h2><span class="date">Saved on this phone</span></div>
+    <div class="stats" id="acc-stats"></div>
+
+    <p class="sec-t">My setup</p>
+    <div class="box" id="acc-setup"></div>
+
+    <p class="sec-t">My story (step 5)</p>
+    <div class="box" id="acc-story"></div>
+
+    <p class="sec-t">My choices</p>
+    <div class="rows" id="acc-choices"></div>
+
+    <p class="sec-t">Plan progress</p>
+    <div class="rows" id="acc-steps"></div>
+
+    <p class="sec-t">Last 14 days</p>
+    <div class="rows" id="acc-days"></div>
+
+    <p class="sec-t">Backup</p>
+    <div class="backup" id="backup-box">
+      <p class="why">Everything above lives only in this phone's browser. Export a backup file once a week. If anything gets lost, import it and all your progress comes back.</p>
+      <p class="status" id="backup-last">No backup yet.</p>
+      <div class="btnrow">
+        <button type="button" class="btn-primary" id="btn-export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Export</button>
+        <input type="file" id="import-file" class="vh" accept=".json,application/json">
+        <label class="btn-secondary" for="import-file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M7 9l5-5 5 5M5 20h14"/></svg>Import</label>
+      </div>
+      <button type="button" class="textlink" id="btn-showtext">Show backup as text instead</button>
+      <p class="status" id="backup-status" hidden></p>
+      <div class="confirm" id="confirm" hidden>
+        <p id="confirm-text"></p>
+        <div class="btnrow"><button type="button" class="btn-primary" id="btn-do-import">Replace my progress</button><button type="button" class="btn-secondary" id="btn-cancel-import">Cancel</button></div>
+      </div>
+      <div class="field json-out" id="json-out" hidden>
+        <label for="json-text">Backup text</label>
+        <textarea id="json-text" readonly></textarea>
+        <button type="button" class="copy" id="btn-copyjson">Copy backup text</button>
+      </div>
+      <details class="help">
+        <summary>Import by pasting text instead</summary>
+        <div class="field" style="margin-top:10px"><label for="paste-text">Paste your backup text</label><textarea id="paste-text"></textarea></div>
+        <button type="button" class="cta" id="btn-paste-import" style="margin-top:10px">Import pasted text</button>
+      </details>
+      <p class="status small">The file is named hspu-plan-backup-DATE.json and holds your plan, setup, story answers, ideas used and every day's tasks.</p>
+    </div>
+  </section>
+</main>
+
+<div class="stepnav" id="stepnav">
+  <div class="wrap">
+    <button type="button" class="back" id="btn-back" aria-label="Previous step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button type="button" class="next" id="btn-next"><span id="next-label">Next step</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</div>
+
+<nav class="tabs" aria-label="Sections">
+  <div class="wrap" role="tablist">
+    <button type="button" class="tab" role="tab" data-tab="plan" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.3" fill="currentColor"/><circle cx="4.5" cy="12" r="1.3" fill="currentColor"/><circle cx="4.5" cy="18" r="1.3" fill="currentColor"/></svg>
+      Plan
+    </button>
+    <button type="button" class="tab" role="tab" data-tab="today" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></svg>
+      Today<span class="badge" id="today-badge">6</span>
+    </button>
+    <button type="button" class="tab" role="tab" data-tab="ideas" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.1V16h5v-.1c0-.8.4-1.6 1.1-2.1A6 6 0 0 0 12 3z"/></svg>
+      Ideas
+    </button>
+    <button type="button" class="tab" role="tab" data-tab="account" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c.8-3.8 3.8-6 7.5-6s6.7 2.2 7.5 6"/></svg>
+      Account<span class="dot" id="acc-dot" hidden></span>
+    </button>
+  </div>
+</nav>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="All steps">
+  <div class="wrap">
+    <div class="top-row"><h2>All steps</h2><button type="button" class="ghost" id="close-all">Close</button></div>
+    <div id="sheet-list"></div>
+    <button type="button" class="reset" id="reset-all">Reset all plan progress</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="var(--surface)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+  /* ================= PLAN DATA ================= */
+  var STAGES = ["Set up", "Start posting", "Free value first", "First clients", "Grow"];
+  var STEPS = [
+    { s: 0, t: "Pick what you coach", time: "10 min",
+      why: "One clear skill makes people understand what you do in 2 seconds.",
+      first: "Do the steps in order. Tick each box, then tap Next. Your progress saves on this phone.",
+      todo: [
+        ["Your skill: handstand push-ups", "You can do HSPU, archer HSPU and 90° HSPU, so you can teach the whole path."],
+        ["Who you help: people who can do push-ups but not a handstand push-up yet", ""],
+        ["Your promise: their first handstand push-up", "Later you can also sell archer and 90°."]
+      ],
+      copy: [{ l: "Your one-liner", x: "I help you get your first handstand push-up." }] },
+
+    { s: 0, t: "Set up Instagram", time: "20 min",
+      todo: [
+        ["Switch to a professional account", "Settings → Account type and tools → Switch to professional → Creator. Category: Coach or Athlete."],
+        ["Pick a simple username", "Same one you'll use on TikTok. Example: yourname.hspu"],
+        ["Profile photo: your face, bright and clear", "Not a logo, not a skill photo from far away."],
+        ["Name field: Your name | HSPU Coach", "This field is searchable, so the words matter."],
+        ["Paste the bio below", ""],
+        ["Archive posts that aren't about training", "Archive, don't delete. You can bring them back."]
+      ],
+      copy: [{ l: "Bio", x: "Handstand push-up coach\nFrom 0 to your first HSPU, then archer and 90°\nFree tips every day\nDM \"HSPU\" for coaching" }] },
+
+    { s: 0, t: "Set up TikTok", time: "15 min",
+      todo: [
+        ["Same username and same photo as Instagram", ""],
+        ["Paste the bio below", "TikTok bios are max 80 characters."],
+        ["Edit profile → add your Instagram", "Coaching chats happen on Instagram."],
+        ["Keep it a personal account", "Business accounts lose most of the popular music."],
+        ["Set old non-training videos to private", "Video → ⋯ → Privacy settings → Only me."]
+      ],
+      copy: [{ l: "Bio", x: "Handstand push-up coach. Free HSPU tips daily. Coaching: DM me on IG" }] },
+
+    { s: 0, t: "Film your skill clips", time: "1 training session",
+      why: "Before anyone trusts your tips, they need to see you can do it.",
+      todo: [
+        ["Film your best HSPU set", ""],
+        ["Film archer HSPU, both sides", ""],
+        ["Film your 90° HSPU", ""],
+        ["Side view, full body in frame, phone at hip height", "Daylight or a bright room. Use a tripod or lean the phone on something."],
+        ["Do each 3-4 times and keep the cleanest take", "Also grab a few close-ups and slow-motion shots for later."]
+      ] },
+
+    { s: 0, t: "Write your story", time: "15 min",
+      why: "Your story videos come from these answers. People trust someone who was stuck where they are now.",
+      fields: [
+        ["q1", "How did you start calisthenics?"],
+        ["q2", "How long did your first HSPU take?"],
+        ["q3", "What were you doing wrong back then?"],
+        ["q4", "What did you believe about yourself? (e.g. \"my shoulders are just weak\")"],
+        ["q5", "What finally made it work?"],
+        ["q6", "How did you get to archer and 90° HSPU?"]
+      ],
+      todo: [["Answer all 6 questions above", "Short answers are fine. Each one is at least one video."]] },
+
+    { s: 1, t: "How to make one video", time: "Read once",
+      todo: [
+        ["15 to 45 seconds, filmed vertical", ""],
+        ["Hook in the first 2 seconds", "Say it out loud and put it as text on screen."],
+        ["One point per video, then show it", "Demo clip of the exercise or the mistake."],
+        ["End with: \"Follow for more HSPU tips\"", "Later: \"DM me HSPU for coaching\"."],
+        ["Show your face and talk", "Skill clips alone get views but almost never clients."],
+        ["Add captions", "Auto captions in CapCut, TikTok or Instagram."]
+      ],
+      note: "Talk about yourself. \"I was stuck for 6 months because...\" works better than \"You need to...\". People argue with orders but relate to stories." },
+
+    { s: 1, t: "Post your first 3 videos", time: "Days 1-3",
+      todo: [
+        ["Video 1: who you are", "Your 90° HSPU clip + \"I coach handstand push-ups. Here's how I got here.\""],
+        ["Video 2: your first tip", "Pick one from the Ideas tab."],
+        ["Video 3: a short story", "\"It took me [X] months to get my first HSPU. Here's what slowed me down.\""],
+        ["Post each one on TikTok AND Instagram Reels", "Upload the file to each app separately. No TikTok watermark on Instagram."],
+        ["Pin all 3 to the top of both profiles", "Tap ⋯ on the video → Pin."]
+      ] },
+
+    { s: 1, t: "Start the daily routine", time: "Every day from now",
+      todo: [
+        ["Open the Today tab every day and tick everything", ""],
+        ["1 video per day, on both apps", ""],
+        ["At least 7 Instagram stories per day", "Start with 3 if 7 feels like a lot, and build up."],
+        ["Film 3-4 videos per session, 2 sessions a week", "Then you always have something ready to post."],
+        ["Don't judge a video by its likes", "Most buyers watch quietly and never like or comment."]
+      ],
+      cta: { l: "Open Today", tab: "today" } },
+
+    { s: 2, t: "Give free tips (your credibility)", time: "Weeks 1-4",
+      why: "Free tips prove you know what you're talking about. At the start, that's the only reason to trust you.",
+      todo: [
+        ["Month 1: about 4 tip videos per week", "The Today tab already plans this for you."],
+        ["One tip per video, something they can try today", ""],
+        ["Use the Ideas tab and mark ideas as used", ""],
+        ["Answer comment questions with a video reply", "Both apps have \"Reply with video\". Free content, and people feel heard."]
+      ],
+      cta: { l: "Open Ideas", tab: "ideas" } },
+
+    { s: 2, t: "Story videos, 2 per week", time: "Weeks 1+",
+      why: "Tips get views. Stories get trust. People hire someone who was stuck like them.",
+      todo: [
+        ["Turn one answer from Step 5 into one video", ""],
+        ["Use the formula below", ""],
+        ["From month 2: more story videos than tips", "Switch the Today tab to \"Month 2+\"."]
+      ],
+      copy: [{ l: "Story formula", x: "I was stuck at [where you were] for [how long] because I thought [what you believed].\nWhat changed: [the fix].\nNow: [your result]." }, { l: "Example", x: "It took me [8] months to get my first handstand push-up. I trained it every single day and thought more was better. That was the problem. When I cut it to 3 days a week, I got my first rep in [4] weeks." }] },
+
+    { s: 2, t: "Free form checks", time: "20 min, once a week",
+      todo: [
+        ["Post the story below", ""],
+        ["Reply to each one with a voice note or short video", "One clear fix each. Don't write an essay."],
+        ["Ask if you can share it as content", "Before/after fixes make great videos."],
+        ["Write down the names of everyone who sends one", "These are your first future clients."]
+      ],
+      copy: [{ l: "Story text", x: "Send me a video of your handstand push-up (or pike push-up). I'll tell you the one thing to fix. 5 spots this week." }] },
+
+    { s: 2, t: "Make a free starter routine", time: "1-2 hours, once",
+      todo: [
+        ["Write a 4-week beginner HSPU routine", "Use the draft below and fix it with your own experience."],
+        ["Post it as a carousel post", ""],
+        ["Save it to an Instagram highlight called \"Free routine\"", ""],
+        ["In videos say: \"DM me ROUTINE and I'll send it\"", "Every DM starts a conversation. Don't sell in it, ask how their training is going."]
+      ],
+      copy: [{ l: "Draft routine (edit it)", x: "4-week HSPU starter (train 2-3x per week)\n\nWeeks 1-2\n• Pike push-ups 3 x 8\n• Elevated pike push-ups 3 x 5\n• Wall handstand hold 3 x 30s\n\nWeeks 3-4\n• Elevated pike push-ups 4 x 6\n• Wall HSPU negatives 3 x 3 (5 seconds down)\n• Wall handstand hold 3 x 45s\n\nRest 2 min between sets. Stop if wrists or shoulders hurt." }] },
+
+    { s: 3, t: "Create your offer", time: "30 min",
+      todo: [
+        ["What you sell: 1-on-1 online HSPU coaching", ""],
+        ["Decide what's included", "See the template below."],
+        ["Price for your first 3 clients: 150-250 per month", "In exchange for permission to share their progress and a review."],
+        ["Set up payment", "PayPal or a Stripe payment link."],
+        ["Save the offer text in your phone notes", ""]
+      ],
+      copy: [{ l: "Offer text", x: "1-on-1 handstand push-up coaching\n• A program made for you, updated every week\n• Feedback on your videos 2x a week\n• Weekly check-in\n• Chat with me, reply within 24h\n[price] per month, cancel anytime" }],
+      note: "Don't go too cheap. The coach in the videos sold $100/month plans to nobody, then got his first client at $400/month." },
+
+    { s: 3, t: "Announce you're taking clients", time: "Week 3-4",
+      todo: [
+        ["Post the story below", ""],
+        ["Make one video: your story + the announcement", ""],
+        ["Repeat it in stories 2-3 times a week", "People need to see it many times before they act."],
+        ["End story videos with \"DM me HSPU\"", ""]
+      ],
+      copy: [{ l: "Story text", x: "I'm opening 3 spots for 1-on-1 handstand push-up coaching this month. DM me \"HSPU\" for details." }] },
+
+    { s: 3, t: "Reply to DMs", time: "When DMs come in",
+      todo: [
+        ["Reply within a few hours", ""],
+        ["Ask about them first, offer second", ""],
+        ["Use the scripts below, in your own words", ""]
+      ],
+      copy: [
+        { l: "First reply", x: "Hey, thanks for reaching out! Quick questions so I can see if I can help:\n1. What can you do right now? (pike push-ups, wall HSPU, how many)\n2. How long have you been working on HSPU?\n3. What do you think is holding you back?" },
+        { l: "After they answer", x: "Got it. Honestly I was in the same spot: [your story in one line]. I think the main thing for you is [one fix]. I coach this 1-on-1. Want me to send you the details, or jump on a quick 15 min call?" },
+        { l: "If it's too expensive", x: "No worries at all. Keep using the free tips, and send me a video anytime, I'll give you a quick fix." }
+      ] },
+
+    { s: 3, t: "The call and getting paid", time: "15-20 min",
+      todo: [
+        ["Ask: goal, what they've tried, how often they can train, any pain", ""],
+        ["Explain your plan for them in plain words", "Step by step, like: wall holds → negatives → first rep."],
+        ["Say the price once, clearly. Then stop talking.", ""],
+        ["If yes: send the payment link right away", ""],
+        ["If not now: stay friendly, check in after 2-3 weeks", ""]
+      ] },
+
+    { s: 3, t: "Start each client the right way", time: "Day 1 of each client",
+      todo: [
+        ["Send a short form", "Equipment, schedule, injuries, current max reps and hold time."],
+        ["Get a day-1 video: max reps, side view", "This is the \"before\" for their transformation."],
+        ["Send the first 2-week program", ""],
+        ["Pick a fixed check-in day each week", ""],
+        ["Make one folder per client", "Programs, messages, videos, all with dates."]
+      ] },
+
+    { s: 4, t: "Post client progress", time: "Weekly",
+      why: "Results are the strongest content you'll ever post. The coach in the videos turned one documented client into 15 transformations in a year.",
+      todo: [
+        ["Get permission in writing first", ""],
+        ["Post weekly progress in stories", "\"Week 3 with Marco: from 0 to 3 wall HSPU negatives\""],
+        ["When they hit the goal: before/after video + their words", ""],
+        ["Save to a \"Results\" highlight on Instagram", ""]
+      ] },
+
+    { s: 4, t: "Raise your price", time: "After 3 client results",
+      todo: [
+        ["Raise the monthly price", ""],
+        ["Add a 3-month package paid upfront", "A bit cheaper than paying 3 months separately."],
+        ["Only take as many clients as you can coach well", ""]
+      ] },
+
+    { s: 4, t: "Add YouTube (optional)", time: "Month 2+",
+      todo: [
+        ["Only once daily posting is a habit", ""],
+        ["1 video per week, 8-15 minutes", "Your full HSPU story, a full tutorial, a client's journey."],
+        ["Cut each one into 3-4 clips for TikTok and Reels", ""],
+        ["Later: 2 videos per week", "The videos call YouTube the place where viewers become buyers."]
+      ] },
+
+    { s: 4, t: "Review every Sunday", time: "15 min, weekly",
+      todo: [
+        ["Which videos brought DMs? Make more like those.", ""],
+        ["Count: videos posted, DMs, calls, new clients, money in", ""],
+        ["Ask every new client: \"What made you message me?\"", ""],
+        ["Pick one thing to do better next week", ""],
+        ["Keep going with the Today tab every day", ""]
+      ],
+      cta: { l: "Open Today", tab: "today" } }
+  ];
+
+  /* ================= IDEAS DATA ================= */
+  var IDEAS = [
+    ["Tip", "Do this before you try your first handstand push-up", "Pike push-up with the head going in front of the hands"],
+    ["Tip", "The 4 steps I'd follow to get my first HSPU", "Pike → elevated pike → wall negatives → wall HSPU"],
+    ["Tip", "Your elbows are why your HSPU feels stuck", "Elbows at about 45°, not flared out"],
+    ["Tip", "Belly to wall or back to wall? Start here", "Show both and say which one first"],
+    ["Tip", "How slow your negatives should be", "3 to 5 seconds down, show it with a timer"],
+    ["Tip", "Stop doing banana-back handstand push-ups", "Ribs in, squeeze glutes, side-by-side"],
+    ["Tip", "The 60-second wrist warm-up I do every session", "Follow-along"],
+    ["Tip", "How often should you train HSPU?", "2-3 times a week and why more isn't better"],
+    ["Tip", "Where your head should touch the floor", "Head in front of the hands, make a triangle"],
+    ["Tip", "Pike push-up or elevated pike: which first?", ""],
+    ["Tip", "What an archer HSPU is, and how to start it", ""],
+    ["Tip", "What I trained before my first 90° HSPU", ""],
+    ["Tip", "Why parallettes make your HSPU stronger", "Deeper range, wrist friendly"],
+    ["Tip", "One cue that fixed my lockout at the top", ""],
+    ["Tip", "A 15-minute HSPU workout, follow along", ""],
+    ["Story", "It took me [X] months to get my first HSPU. Here's what slowed me down.", "From your Step 5 answers"],
+    ["Story", "I thought my shoulders were just weak. They weren't.", ""],
+    ["Story", "The HSPU mistake I made for months", ""],
+    ["Story", "If I started handstand push-ups from zero again, I'd do this", ""],
+    ["Story", "My first 90° HSPU attempt vs now", "Old clip + new clip"],
+    ["Story", "I almost quit handstand training. Here's why I didn't.", ""],
+    ["Story", "I switched programs every few weeks. This is what it cost me.", ""],
+    ["Story", "Why I started coaching handstand push-ups", "Good one to post the week you announce coaching"],
+    ["Proof", "90° handstand push-up, slow motion", "Text on screen: \"From 0 to this\""],
+    ["Proof", "Archer HSPU, both sides", ""],
+    ["Proof", "My full HSPU session, sped up", "Text on screen with sets and reps"],
+    ["Proof", "\"Can you really do a 90° HSPU?\" Yes, here it is.", "Answer a doubter's comment"],
+    ["Proof", "Client progress: week 1 vs week 4", "Only with permission"],
+    ["Reply", "Reply to a comment question with a video", "Use \"Reply with video\""],
+    ["Reply", "Fix a follower's form (with permission)", "From your free form checks"],
+    ["Reply", "You asked: how many reps should I do?", ""]
+  ];
+  var TYPE_DESC = { Tip: "Teach one thing they can try today.", Story: "Something you went through. Start with \"I\".", Proof: "Show your skill or a client's progress.", Reply: "Answer a comment with a video." };
+  var SCHED = {
+    start: ["Reply", "Tip", "Tip", "Story", "Tip", "Proof", "Story"],
+    grow:  ["Reply", "Story", "Tip", "Story", "Proof", "Story", "Tip"]
+  };
+  var DAILY = [
+    ["tt", "Post today's video on TikTok", ""],
+    ["ig", "Post the same video on Instagram Reels", ""],
+    ["reply", "Reply to every comment and DM", ""],
+    ["train", "Train, and film 1-2 clips while you do", "For stories and future videos"],
+    ["hook", "Write tomorrow's hook (5 min)", "Check the plan above for tomorrow's type"]
+  ];
+  var CLIENT = [
+    ["c-reply", "Answer every client within 24h", ""],
+    ["c-save", "Save today's client videos to their folder", ""]
+  ];
+  var WEEKLY = [
+    ["film1", "Filming session 1 (3-4 videos)", ""],
+    ["film2", "Filming session 2 (3-4 videos)", ""],
+    ["form", "Post the free form-check story", "Plan step 11"],
+    ["offer", "\"Taking clients\" story, 2-3 times", "Once you reach step 14"],
+    ["review", "Sunday review", "Plan step 21"]
+  ];
+
+  /* ================= STATE ================= */
+  var cur = Math.min(Math.max(0, store.get("hp:step", 0) | 0), STEPS.length - 1);
+  var checks = store.get("hp:checks", {}) || {};
+  var fields = store.get("hp:fields", {}) || {};
+  var used = store.get("hp:ideas", {}) || {};
+  var mode = store.get("hp:mode", "start") === "grow" ? "grow" : "start";
+  var hasClients = !!store.get("hp:clients", false);
+
+  function stepDone(i) { var t = STEPS[i].todo; for (var j = 0; j < t.length; j++) if (!checks[i + "-" + j]) return false; return true; }
+  function doneCount() { var n = 0; for (var i = 0; i < STEPS.length; i++) if (stepDone(i)) n++; return n; }
+
+  /* ================= PLAN RENDER ================= */
+  var planView = $("#view-plan");
+  function renderStep() {
+    var st = STEPS[cur], h = "";
+    h += '<div class="meta"><span class="stage">' + esc(STAGES[st.s]) + '</span><span class="time">' + esc(st.time) + '</span></div>';
+    h += '<h1 class="step-title">' + esc(st.t) + '</h1>';
+    if (st.first) h += '<p class="firsttip">' + esc(st.first) + '</p>';
+    if (st.why) h += '<p class="why">' + esc(st.why) + '</p>';
+    if (st.fields) {
+      h += '<div class="box">';
+      st.fields.forEach(function (f) {
+        h += '<div class="field"><label for="f-' + f[0] + '">' + esc(f[1]) + '</label><textarea id="f-' + f[0] + '" data-field="' + f[0] + '">' + esc(fields[f[0]] || "") + '</textarea></div>';
+      });
+      h += '</div>';
+    }
+    h += '<ul class="todo">';
+    st.todo.forEach(function (t, j) {
+      var k = cur + "-" + j;
+      h += '<li><label class="item"><input type="checkbox" data-k="' + k + '"' + (checks[k] ? " checked" : "") + '><span class="tick">' + TICK + '</span><span class="tx"><b>' + esc(t[0]) + '</b>' + (t[1] ? '<small>' + esc(t[1]) + '</small>' : '') + '</span></label></li>';
+    });
+    h += '</ul>';
+    (st.copy || []).forEach(function (c, j) {
+      h += '<div class="box"><div class="box-head"><span>' + esc(c.l) + '</span><button type="button" class="copy" data-copy="cp-' + j + '">Copy</button></div><pre class="copy-text" id="cp-' + j + '">' + esc(c.x) + '</pre></div>';
+    });
+    if (st.note) h += '<p class="note">' + esc(st.note) + '</p>';
+    if (st.cta) h += '<button type="button" class="cta" data-goto="' + st.cta.tab + '">' + esc(st.cta.l) + ' →</button>';
+    planView.innerHTML = h;
+    $("#btn-back").disabled = cur === 0;
+    $("#next-label").textContent = cur === STEPS.length - 1 ? "Go to Today" : "Next step";
+    renderTop();
+  }
+  function renderTop() {
+    var d = doneCount();
+    $("#top-sub").textContent = "Step " + (cur + 1) + " of " + STEPS.length + " · " + STAGES[STEPS[cur].s];
+    $("#top-done").textContent = d + " of " + STEPS.length + " done";
+    $("#top-bar").style.width = ((cur + 1) / STEPS.length * 100) + "%";
+  }
+  planView.addEventListener("change", function (e) {
+    var k = e.target.getAttribute("data-k"); if (!k) return;
+    checks[k] = e.target.checked; store.set("hp:checks", checks); renderTop();
+  });
+  planView.addEventListener("input", function (e) {
+    var f = e.target.getAttribute("data-field"); if (!f) return;
+    fields[f] = e.target.value; store.set("hp:fields", fields);
+  });
+  function go(i) {
+    cur = Math.min(Math.max(0, i), STEPS.length - 1); store.set("hp:step", cur);
+    renderStep(); window.scrollTo(0, 0);
+  }
+  $("#btn-back").addEventListener("click", function () { go(cur - 1); });
+  $("#btn-next").addEventListener("click", function () { if (cur === STEPS.length - 1) showTab("today"); else go(cur + 1); });
+
+  /* all steps sheet */
+  var sheet = $("#sheet");
+  function renderSheet() {
+    var h = "";
+    STAGES.forEach(function (name, si) {
+      h += '<div class="sheet-group"><h3>' + esc(name) + '</h3>';
+      STEPS.forEach(function (st, i) {
+        if (st.s !== si) return;
+        var dn = stepDone(i);
+        h += '<button type="button" class="jump' + (dn ? " done" : "") + (i === cur ? " cur" : "") + '" data-jump="' + i + '"><span class="n">' + (i + 1) + '</span><span>' + esc(st.t) + '</span><span class="st">' + (dn ? "Done" : (i === cur ? "Here" : "")) + '</span></button>';
+      });
+      h += '</div>';
+    });
+    $("#sheet-list").innerHTML = h;
+  }
+  $("#open-all").addEventListener("click", function () { renderSheet(); sheet.hidden = false; });
+  $("#close-all").addEventListener("click", function () { sheet.hidden = true; });
+  $("#sheet-list").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-jump]"); if (!b) return;
+    sheet.hidden = true; showTab("plan"); go(+b.getAttribute("data-jump"));
+  });
+  var resetBtn = $("#reset-all"), resetT = null;
+  resetBtn.addEventListener("click", function () {
+    if (!resetBtn.classList.contains("armed")) {
+      resetBtn.classList.add("armed"); resetBtn.textContent = "Tap again to reset";
+      resetT = setTimeout(function () { resetBtn.classList.remove("armed"); resetBtn.textContent = "Reset all plan progress"; }, 3500);
+      return;
+    }
+    clearTimeout(resetT); checks = {}; store.set("hp:checks", checks);
+    resetBtn.classList.remove("armed"); resetBtn.textContent = "Reset all plan progress";
+    sheet.hidden = true; go(0);
+  });
+
+  /* copy buttons + goto */
+  document.addEventListener("click", function (e) {
+    var g = e.target.closest("[data-goto]"); if (g) { showTab(g.getAttribute("data-goto")); return; }
+    var b = e.target.closest("[data-copy]"); if (!b) return;
+    var el = document.getElementById(b.getAttribute("data-copy")); if (!el) return;
+    var ok = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1400); };
+    var fail = function () {
+      try { var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch (x) {}
+      b.textContent = "Selected"; setTimeout(function () { b.textContent = "Copy"; }, 1800);
+    };
+    try { navigator.clipboard.writeText(el.textContent).then(ok, fail); } catch (x) { fail(); }
+  });
+
+  /* ================= TODAY ================= */
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function ymd(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  var now = new Date(), todayKey = ymd(now);
+  var mon = new Date(now); mon.setDate(now.getDate() - ((now.getDay() + 6) % 7)); var weekKey = ymd(mon);
+  /* full history: one record per day and per week (older single-day records are migrated in) */
+  var dayLog = store.get("hp:history", {}) || {};
+  var weekLog = store.get("hp:weeks", {}) || {};
+  var oldDay = store.get("hp:day", null);
+  if (oldDay && oldDay.date && !dayLog[oldDay.date]) { dayLog[oldDay.date] = { c: oldDay.c || {}, stories: oldDay.stories || 0 }; store.set("hp:history", dayLog); }
+  var oldWk = store.get("hp:week", null);
+  if (oldWk && oldWk.week && !weekLog[oldWk.week]) { weekLog[oldWk.week] = { c: oldWk.c || {} }; store.set("hp:weeks", weekLog); }
+  var day = dayLog[todayKey] || { c: {}, stories: 0 };
+  var wk = weekLog[weekKey] || { c: {} };
+  var doneDays = store.get("hp:donedays", []) || [];
+  var ideaOffset = 0;
+
+  try { $("#today-date").textContent = now.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long" }); } catch (e) { $("#today-date").textContent = todayKey; }
+
+  function itemHTML(prefix, it, on) {
+    return '<li><label class="item"><input type="checkbox" data-' + prefix + '="' + it[0] + '"' + (on ? " checked" : "") + '><span class="tick">' + TICK + '</span><span class="tx"><b>' + esc(it[1]) + '</b>' + (it[2] ? '<small>' + esc(it[2]) + '</small>' : '') + '</span></label></li>';
+  }
+  function renderLists() {
+    $("#daily-list").innerHTML = DAILY.map(function (it) { return itemHTML("d", it, day.c[it[0]]); }).join("");
+    $("#client-list").innerHTML = CLIENT.map(function (it) { return itemHTML("d", it, day.c[it[0]]); }).join("");
+    $("#weekly-list").innerHTML = WEEKLY.map(function (it) { return itemHTML("w", it, wk.c[it[0]]); }).join("");
+    $("#client-list").hidden = !hasClients;
+    $("#has-clients").checked = hasClients;
+  }
+  function dailyItems() { return DAILY.concat(hasClients ? CLIENT : []); }
+  function remaining() {
+    var r = 0; dailyItems().forEach(function (it) { if (!day.c[it[0]]) r++; });
+    if (day.stories < 7) r++;
+    return r;
+  }
+  function updateStreak() {
+    var all = remaining() === 0, i = doneDays.indexOf(todayKey);
+    if (all && i < 0) doneDays.push(todayKey);
+    if (!all && i >= 0) doneDays.splice(i, 1);
+    doneDays = doneDays.slice(-400); store.set("hp:donedays", doneDays);
+    $("#streak").textContent = streakCount() + " day streak";
+  }
+  function streakCount() {
+    var set = {}; doneDays.forEach(function (d) { set[d] = 1; });
+    var d = new Date(now); if (!set[ymd(d)]) d.setDate(d.getDate() - 1);
+    var n = 0; while (set[ymd(d)]) { n++; d.setDate(d.getDate() - 1); }
+    return n;
+  }
+  function renderCounters() {
+    $("#stories-n").textContent = day.stories + "/7";
+    $("#stories-row").classList.toggle("ok", day.stories >= 7);
+    var r = remaining(), b = $("#today-badge");
+    b.textContent = r === 0 ? "✓" : r; b.classList.toggle("ok", r === 0);
+    updateStreak();
+  }
+  function saveDay() { dayLog[todayKey] = day; store.set("hp:history", dayLog); }
+  function saveWeek() { weekLog[weekKey] = wk; store.set("hp:weeks", weekLog); }
+
+  document.getElementById("view-today").addEventListener("change", function (e) {
+    var d = e.target.getAttribute("data-d"), w = e.target.getAttribute("data-w");
+    if (d) { day.c[d] = e.target.checked; saveDay(); renderCounters(); }
+    if (w) { wk.c[w] = e.target.checked; saveWeek(); }
+    if (e.target.id === "has-clients") { hasClients = e.target.checked; store.set("hp:clients", hasClients); $("#client-list").hidden = !hasClients; renderCounters(); }
+  });
+  $$("[data-count]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      day.stories = Math.max(0, Math.min(30, day.stories + (+b.getAttribute("data-count")))); saveDay(); renderCounters();
+    });
+  });
+
+  var DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  function renderVideo() {
+    $$("[data-mode]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-mode") === mode ? "true" : "false"); });
+    var sched = SCHED[mode], type = sched[now.getDay()];
+    $("#vid-type").textContent = type === "Proof" ? "Proof / skill clip" : (type === "Story" ? "My story" : (type === "Reply" ? "Reply to a comment" : "Free tip"));
+    $("#vid-desc").textContent = TYPE_DESC[type];
+    var pool = [];
+    IDEAS.forEach(function (it, i) { if (it[0] === type && !used[i]) pool.push(i); });
+    var box = $("#vid-idea");
+    if (!pool.length) { box.innerHTML = "You've used every " + esc(type.toLowerCase()) + " idea. Make one from your own week."; box.removeAttribute("data-idx"); }
+    else {
+      var idx = pool[ideaOffset % pool.length];
+      box.innerHTML = "“" + esc(IDEAS[idx][1]) + "”" + (IDEAS[idx][2] ? "<small>" + esc(IDEAS[idx][2]) + "</small>" : "");
+      box.setAttribute("data-idx", idx);
+    }
+    var h = "";
+    for (var i = 0; i < 7; i++) {
+      var jsDay = (i + 1) % 7, t = sched[jsDay];
+      h += '<div' + (jsDay === now.getDay() ? ' class="now"' : '') + '><b>' + DAYS[i] + '</b><span>' + (t === "Proof" ? "Skill" : t) + '</span></div>';
+    }
+    $("#week-row").innerHTML = h;
+  }
+  $$("[data-mode]").forEach(function (b) {
+    b.addEventListener("click", function () { mode = b.getAttribute("data-mode"); store.set("hp:mode", mode); ideaOffset = 0; renderVideo(); });
+  });
+  $("#vid-other").addEventListener("click", function () { ideaOffset++; renderVideo(); });
+  $("#vid-used").addEventListener("click", function () {
+    var idx = $("#vid-idea").getAttribute("data-idx"); if (idx === null) return;
+    used[idx] = true; store.set("hp:ideas", used); renderVideo(); renderIdeas();
+  });
+
+  /* ================= IDEAS ================= */
+  var filter = "all";
+  function renderIdeas() {
+    var h = "", n = 0;
+    IDEAS.forEach(function (it, i) {
+      if (used[i]) n++;
+      if (filter !== "all" && it[0] !== filter) return;
+      h += '<li><label class="item"><input type="checkbox" data-idea="' + i + '"' + (used[i] ? " checked" : "") + '><span class="tick">' + TICK + '</span><span class="tx"><span class="kind ' + it[0] + '">' + (it[0] === "Story" ? "My story" : it[0]) + '</span><b>' + esc(it[1]) + '</b>' + (it[2] ? '<small>' + esc(it[2]) + '</small>' : '') + '</span></label></li>';
+    });
+    $("#ideas-list").innerHTML = h;
+    $("#ideas-count").textContent = n + " of " + IDEAS.length + " used";
+  }
+  $("#ideas-list").addEventListener("change", function (e) {
+    var i = e.target.getAttribute("data-idea"); if (i === null) return;
+    if (e.target.checked) used[i] = true; else delete used[i];
+    store.set("hp:ideas", used); $("#ideas-count").textContent = Object.keys(used).length + " of " + IDEAS.length + " used"; renderVideo();
+  });
+  $$("[data-filter]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      filter = b.getAttribute("data-filter");
+      $$("[data-filter]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      renderIdeas();
+    });
+  });
+
+  /* ================= TABS ================= */
+  var TABS = ["plan", "today", "ideas", "account"];
+  function showTab(name, fromHash) {
+    if (TABS.indexOf(name) < 0) name = "plan";
+    TABS.forEach(function (t) { $("#view-" + t).hidden = t !== name; });
+    $$("[data-tab]").forEach(function (b) { b.setAttribute("aria-selected", b.getAttribute("data-tab") === name ? "true" : "false"); });
+    $("#stepnav").hidden = name !== "plan";
+    $(".top").hidden = name !== "plan";
+    if (name === "account") renderAccount();
+    updateDot();
+    if (!fromHash) { try { history.replaceState(null, "", "#" + name); } catch (e) {} }
+    window.scrollTo(0, 0);
+  }
+  $$("[data-tab]").forEach(function (b) { b.addEventListener("click", function () { showTab(b.getAttribute("data-tab")); }); });
+  window.addEventListener("hashchange", function () { showTab(location.hash.slice(1), true); });
+
+  /* ================= ACCOUNT ================= */
+  var SETUP = [
+    ["name", "Your name", "text", ""],
+    ["ig", "Instagram username", "text", ""],
+    ["tt", "TikTok username", "text", ""],
+    ["niche", "What you coach", "text", "Handstand push-ups (HSPU, archer, 90°)"],
+    ["oneliner", "Your one-liner", "text", STEPS[0].copy[0].x],
+    ["igbio", "Instagram bio", "area", STEPS[1].copy[0].x],
+    ["ttbio", "TikTok bio", "area", STEPS[2].copy[0].x],
+    ["price", "Price per month (first clients)", "text", ""],
+    ["offer", "Offer text", "area", STEPS[12].copy[0].x],
+    ["start", "Date you started", "date", ""]
+  ];
+  var setup = store.get("hp:setup", {}) || {};
+  function setupVal(k, def) { return typeof setup[k] === "string" ? setup[k] : def; }
+  function currentSetup() { var o = {}; SETUP.forEach(function (f) { o[f[0]] = setupVal(f[0], f[3]); }); return o; }
+  function renderSetup() {
+    $("#acc-setup").innerHTML = SETUP.map(function (f) {
+      var v = setupVal(f[0], f[3]), id = "s-" + f[0], ph = "";
+      if (f[0] === "ig" || f[0] === "tt") ph = ' placeholder="@yourname" autocapitalize="off" autocomplete="off"';
+      if (f[0] === "price") ph = ' placeholder="e.g. 200 per month"';
+      if (f[0] === "name") ph = ' placeholder="Your name"';
+      var input = f[2] === "area"
+        ? '<textarea id="' + id + '" rows="' + (f[0] === "offer" ? 6 : 4) + '" data-setup="' + f[0] + '">' + esc(v) + '</textarea>'
+        : '<input id="' + id + '" type="' + (f[2] === "date" ? "date" : "text") + '" data-setup="' + f[0] + '" value="' + esc(v) + '"' + ph + '>';
+      return '<div class="field"><label for="' + id + '">' + esc(f[1]) + '</label>' + input + '</div>';
+    }).join("");
+  }
+  $("#acc-setup").addEventListener("input", function (e) {
+    var k = e.target.getAttribute("data-setup"); if (!k) return;
+    setup[k] = e.target.value; store.set("hp:setup", setup);
+  });
+
+  var DAILY_ALL = DAILY.concat(CLIENT), WEEKLY_ALL = WEEKLY;
+  function labelOf(list, k) { for (var i = 0; i < list.length; i++) if (list[i][0] === k) return list[i][1]; return k; }
+  function fmtDay(key) {
+    try { var p = key.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" }); } catch (e) { return key; }
+  }
+  function fmtWhen(iso) {
+    var dt = new Date(iso); if (isNaN(dt)) return "an unknown date";
+    var days = Math.floor((Date.now() - dt.getTime()) / 86400000), s;
+    try { s = dt.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }); } catch (e) { s = iso.slice(0, 10); }
+    return s + (days <= 0 ? " (today)" : days === 1 ? " (yesterday)" : " (" + days + " days ago)");
+  }
+  function stat(v, l) { return '<div class="stat"><b>' + esc(v) + '</b><span>' + esc(l) + '</span></div>'; }
+  function row(l, r, ok) { return '<div><span>' + l + '</span><span class="r' + (ok ? " ok" : "") + '">' + esc(r) + '</span></div>'; }
+
+  function renderAccount() {
+    $("#acc-stats").innerHTML = stat(doneCount() + "/" + STEPS.length, "plan steps done") + stat(cur + 1, "current step") +
+      stat(streakCount(), "day streak") + stat(doneDays.length, "full days done");
+
+    $("#acc-story").innerHTML = STEPS[4].fields.map(function (f) {
+      var a = (fields[f[0]] || "").trim();
+      return '<div class="qa"><b>' + esc(f[1]) + '</b><p' + (a ? "" : ' class="empty"') + '>' + (a ? esc(a) : "Not answered yet") + '</p></div>';
+    }).join("") + '<button type="button" class="cta" data-jump="4">Edit in step 5 →</button>';
+
+    $("#acc-choices").innerHTML =
+      row("Video plan", mode === "grow" ? "Month 2+: more stories" : "Month 1: free value") +
+      row("I have clients", hasClients ? "Yes" : "No") +
+      row("Ideas used", Object.keys(used).length + " of " + IDEAS.length);
+
+    $("#acc-steps").innerHTML = STEPS.map(function (st, i) {
+      var tot = st.todo.length, n = 0;
+      for (var j = 0; j < tot; j++) if (checks[i + "-" + j]) n++;
+      var dn = n === tot;
+      return '<button type="button" data-jump="' + i + '"><span>' + (i + 1) + ". " + esc(st.t) + (i === cur ? "<small>You are here</small>" : "") + '</span><span class="r' + (dn ? " ok" : "") + '">' + (dn ? "✓ Done" : n + "/" + tot) + '</span></button>';
+    }).join("");
+
+    var h = "", total = DAILY.length + 1;
+    for (var i = 0; i < 14; i++) {
+      var dt = new Date(now); dt.setDate(now.getDate() - i);
+      var key = ymd(dt), rec = i === 0 ? day : dayLog[key], n = 0;
+      if (rec) { DAILY.forEach(function (it) { if (rec.c && rec.c[it[0]]) n++; }); if ((rec.stories || 0) >= 7) n++; }
+      var full = doneDays.indexOf(key) >= 0;
+      h += row((i === 0 ? "Today" : esc(fmtDay(key))) + '<small>' + (rec ? (rec.stories || 0) : 0) + ' stories</small>', (full ? "✓ " : "") + (full ? total : n) + "/" + total, full);
+    }
+    $("#acc-days").innerHTML = h;
+    renderBackupStatus();
+  }
+  $("#view-account").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-jump]"); if (!b) return;
+    showTab("plan"); go(+b.getAttribute("data-jump"));
+  });
+
+  /* ---------- backup: export ---------- */
+  function hasProgress() {
+    return Object.keys(checks).some(function (k) { return checks[k]; }) || Object.keys(dayLog).length > 0 ||
+      Object.keys(fields).length > 0 || Object.keys(used).length > 0 || Object.keys(setup).length > 0;
+  }
+  function lastExport() { return store.get("hp:lastexport", null); }
+  function needsBackup() {
+    if (!hasProgress()) return false;
+    var last = lastExport(); if (!last) return true;
+    return Date.now() - new Date(last).getTime() > 7 * 86400000;
+  }
+  function updateDot() { var d = $("#acc-dot"); if (d) d.hidden = !needsBackup(); }
+  function renderBackupStatus() {
+    var last = lastExport();
+    $("#backup-box").classList.toggle("stale", needsBackup());
+    $("#backup-last").textContent = last ? "Last backup: " + fmtWhen(last) + (needsBackup() ? ". Time for a new one." : "") : (hasProgress() ? "No backup yet. Export one now." : "No backup yet.");
+  }
+  function setStatus(msg, kind) { var el = $("#backup-status"); el.textContent = msg; el.className = "status" + (kind ? " " + kind : ""); el.hidden = !msg; }
+  function markExported() { store.set("hp:lastexport", new Date().toISOString()); renderBackupStatus(); updateDot(); }
+
+  function tasksFrom(list, c) { var out = []; Object.keys(c || {}).forEach(function (k) { if (c[k]) out.push(labelOf(list, k)); }); return out; }
+  function buildBackup() {
+    if (dayLog[todayKey] !== day && (Object.keys(day.c).length || day.stories)) dayLog[todayKey] = day;
+    if (weekLog[weekKey] !== wk && Object.keys(wk.c).length) weekLog[weekKey] = wk;
+    return {
+      app: "hspu-coaching-plan",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      setup: currentSetup(),
+      plan: {
+        currentStep: cur + 1,
+        stepsDone: doneCount(),
+        totalSteps: STEPS.length,
+        checks: checks,
+        steps: STEPS.map(function (st, i) {
+          return { step: i + 1, stage: STAGES[st.s], title: st.t, done: stepDone(i),
+            items: st.todo.map(function (t, j) { return { task: t[0], done: !!checks[i + "-" + j] }; }) };
+        })
+      },
+      storyAnswers: STEPS[4].fields.map(function (f) { return { id: f[0], question: f[1], answer: fields[f[0]] || "" }; }),
+      settings: { videoPlan: mode, hasClients: hasClients },
+      ideasUsed: Object.keys(used).map(Number).sort(function (a, b) { return a - b; }).map(function (i) { return { id: i, type: IDEAS[i] ? IDEAS[i][0] : "", idea: IDEAS[i] ? IDEAS[i][1] : "" }; }),
+      daily: {
+        doneDays: doneDays.slice().sort(),
+        days: Object.keys(dayLog).sort().map(function (d) {
+          var r = dayLog[d] || {};
+          return { date: d, fullyDone: doneDays.indexOf(d) >= 0, stories: r.stories || 0, tasksDone: tasksFrom(DAILY_ALL, r.c), raw: r.c || {} };
+        })
+      },
+      weekly: {
+        weeks: Object.keys(weekLog).sort().map(function (w) {
+          var r = weekLog[w] || {};
+          return { weekOf: w, tasksDone: tasksFrom(WEEKLY_ALL, r.c), raw: r.c || {} };
+        })
+      }
+    };
+  }
+
+  var dlReady = (window.claude && typeof window.claude.use === "function")
+    ? window.claude.use("downloads").catch(function () { return null; })
+    : Promise.resolve(null);
+  function showFallback(json, why) {
+    $("#json-text").value = json; $("#json-out").hidden = false; setStatus(why, "err");
+  }
+  $("#btn-export").addEventListener("click", function () {
+    var json = JSON.stringify(buildBackup(), null, 2), name = "hspu-plan-backup-" + ymd(new Date()) + ".json";
+    $("#json-out").hidden = true; $("#confirm").hidden = true;
+    setStatus("Preparing your backup...", "");
+    dlReady.then(function (dl) {
+      if (!dl) {
+        /* a normal website (GitHub Pages, Netlify) has no window.claude and can download directly */
+        if (!window.claude && browserDownload(name, json)) { markExported(); setStatus("Backup saved as " + name + ". Check your Downloads (or Files on iPhone).", "ok"); return; }
+        showFallback(json, "Download isn't available in this view. Copy the backup text below and keep it in your notes or a file."); return;
+      }
+      setStatus("Confirm the download to save the file.", "");
+      dl.save({ filename: name, data: json }).then(function () {
+        markExported(); setStatus("Backup saved as " + name + ".", "ok");
+      }, function (err) {
+        var c = err && err.code;
+        if (c === "declined") setStatus("Download cancelled. Nothing was saved.", "err");
+        else if (c === "rate_limited") setStatus("A save prompt is already open. Finish that one, then try again.", "err");
+        else showFallback(json, "The download didn't work here. Copy the backup text below and keep it in your notes or a file.");
+      });
+    });
+  });
+  function browserDownload(name, text) {
+    try {
+      var url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
+      var a = document.createElement("a"); a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+      return true;
+    } catch (e) { return false; }
+  }
+  $("#btn-showtext").addEventListener("click", function () {
+    $("#confirm").hidden = true;
+    showFallback(JSON.stringify(buildBackup(), null, 2), "");
+    setStatus("Copy this text and keep it in your notes. You can paste it back with \"Import by pasting text instead\".", "");
+  });
+  $("#btn-copyjson").addEventListener("click", function () {
+    var ta = $("#json-text"), b = this;
+    var ok = function () { markExported(); b.textContent = "Copied"; setStatus("Backup text copied. Paste it somewhere safe.", "ok"); setTimeout(function () { b.textContent = "Copy backup text"; }, 1600); };
+    var fail = function () { ta.focus(); ta.select(); setStatus("Text selected. Use your phone's Copy.", ""); };
+    try { navigator.clipboard.writeText(ta.value).then(ok, fail); } catch (x) { fail(); }
+  });
+
+  /* ---------- backup: import ---------- */
+  var pending = null;
+  var DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+  function boolMap(o) { var out = {}; if (o && typeof o === "object") Object.keys(o).forEach(function (k) { if (o[k] === true) out[k] = true; }); return out; }
+  function prepareImport(text) {
+    var obj;
+    try { obj = JSON.parse(text); } catch (x) { setStatus("That isn't a valid backup. The file or text couldn't be read as JSON.", "err"); return; }
+    if (!obj || obj.app !== "hspu-coaching-plan" || !obj.plan || typeof obj.plan !== "object") { setStatus("That file isn't a backup from this plan.", "err"); return; }
+    pending = obj;
+    var days = obj.daily && Array.isArray(obj.daily.days) ? obj.daily.days.length : 0;
+    var ideas = Array.isArray(obj.ideasUsed) ? obj.ideasUsed.length : 0;
+    $("#confirm-text").textContent = "Backup from " + (obj.exportedAt ? fmtWhen(obj.exportedAt) : "an unknown date") + ": " +
+      (+obj.plan.stepsDone || 0) + " of " + STEPS.length + " steps done, " + days + (days === 1 ? " day" : " days") + " of history, " +
+      ideas + (ideas === 1 ? " idea" : " ideas") + " used. Importing replaces everything on this phone now.";
+    setStatus("", ""); $("#json-out").hidden = true; $("#confirm").hidden = false;
+    try { $("#confirm").scrollIntoView({ block: "nearest" }); } catch (x) {}
+  }
+  function applyBackup(o) {
+    checks = boolMap(o.plan.checks);
+    cur = Math.min(Math.max(0, (parseInt(o.plan.currentStep, 10) || 1) - 1), STEPS.length - 1);
+    fields = {};
+    (Array.isArray(o.storyAnswers) ? o.storyAnswers : []).forEach(function (a) { if (a && typeof a.id === "string" && typeof a.answer === "string" && a.answer) fields[a.id] = a.answer; });
+    var s = o.settings || {}; mode = s.videoPlan === "grow" ? "grow" : "start"; hasClients = s.hasClients === true;
+    used = {};
+    (Array.isArray(o.ideasUsed) ? o.ideasUsed : []).forEach(function (it) { var i = it ? parseInt(it.id, 10) : NaN; if (i >= 0 && i < IDEAS.length) used[i] = true; });
+    var dly = o.daily || {};
+    dayLog = {};
+    (Array.isArray(dly.days) ? dly.days : []).forEach(function (d) { if (d && DATE_RE.test(d.date)) dayLog[d.date] = { c: boolMap(d.raw), stories: Math.max(0, Math.min(30, parseInt(d.stories, 10) || 0)) }; });
+    doneDays = (Array.isArray(dly.doneDays) ? dly.doneDays : []).filter(function (d) { return typeof d === "string" && DATE_RE.test(d); });
+    weekLog = {};
+    ((o.weekly && Array.isArray(o.weekly.weeks)) ? o.weekly.weeks : []).forEach(function (w) { if (w && DATE_RE.test(w.weekOf)) weekLog[w.weekOf] = { c: boolMap(w.raw) }; });
+    setup = {};
+    if (o.setup && typeof o.setup === "object") SETUP.forEach(function (f) { if (typeof o.setup[f[0]] === "string") setup[f[0]] = o.setup[f[0]]; });
+    day = dayLog[todayKey] || { c: {}, stories: 0 };
+    wk = weekLog[weekKey] || { c: {} };
+    store.set("hp:checks", checks); store.set("hp:step", cur); store.set("hp:fields", fields); store.set("hp:mode", mode);
+    store.set("hp:clients", hasClients); store.set("hp:ideas", used); store.set("hp:history", dayLog); store.set("hp:weeks", weekLog);
+    store.set("hp:donedays", doneDays); store.set("hp:setup", setup);
+    if (typeof o.exportedAt === "string" && !isNaN(new Date(o.exportedAt))) store.set("hp:lastexport", o.exportedAt);
+    ideaOffset = 0;
+    renderStep(); renderLists(); renderCounters(); renderVideo(); renderIdeas(); renderSetup(); renderAccount(); updateDot();
+  }
+  $("#import-file").addEventListener("change", function (e) {
+    var f = e.target.files && e.target.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function () { prepareImport(String(r.result || "")); };
+    r.onerror = function () { setStatus("Couldn't read that file. Try again, or paste the text instead.", "err"); };
+    r.readAsText(f);
+    e.target.value = "";
+  });
+  $("#btn-paste-import").addEventListener("click", function () {
+    var t = $("#paste-text").value.trim();
+    if (!t) { setStatus("Paste your backup text first.", "err"); return; }
+    prepareImport(t);
+  });
+  $("#btn-cancel-import").addEventListener("click", function () { pending = null; $("#confirm").hidden = true; setStatus("Import cancelled. Nothing changed.", ""); });
+  $("#btn-do-import").addEventListener("click", function () {
+    if (!pending) return;
+    applyBackup(pending); pending = null; $("#confirm").hidden = true; $("#paste-text").value = "";
+    setStatus("Progress restored from your backup.", "ok");
+  });
+
+  renderStep(); renderLists(); renderCounters(); renderVideo(); renderIdeas(); renderSetup();
+  showTab((location.hash || "#plan").slice(1), true);
+})();
+</script>
+</body>
+</html>
